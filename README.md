@@ -9,11 +9,18 @@ Originally built to preview The Converted, [check the The Converted website for 
 
 ### Objective-C
 
-Simply add the Objective-C source files SmudgyWindow.h and SmudgyWindow.m to your project and implement the getter method of the window property in your Application Delegate.
+Add SmudgeKit to your Podfile.
+
+`pod 'SmudgeKit'`
+
+Or add SmudgyWindow.h and SmudgyWindow.m to your project. 
+
+Then implement the getter method of the window property in your Application Delegate:
 
 ```objectivec
+#import "SmudgyWindow.h"
 
-//In Application Delegate. (Remember to #import "SmudgyWindow.h")
+// …
 
 - (UIWindow *)window {
     if (!_window) {
