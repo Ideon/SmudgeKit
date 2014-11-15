@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SmudgeKit"
-  s.version      = "0.0.1"
+  s.version      = "0.1.1"
   s.summary      = "A drop in replacement for UIWindow to draw touch points for app previews and promotional videos."
 
   s.description  = <<-DESC
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.author             = { "Hans Petter Eikemo" => "hp@ideon.co" }
   s.social_media_url   = "https://twitter.com/hpeikemo"
 
-  s.platform     = :ios, "7.0"
+  s.platform     = :ios, "6.0"
 
   s.source       = {
     :git => "https://github.com/Ideon/SmudgeKit.git",
