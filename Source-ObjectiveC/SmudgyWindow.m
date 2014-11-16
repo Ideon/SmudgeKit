@@ -185,6 +185,9 @@
     if (!self.smudgeContainer) {
         _smudgeContainer = [SmudgeContainerLayer layer];
         [self.layer addSublayer:self.smudgeContainer];
+    } else if ([self.layer.sublayers lastObject] != self.smudgeContainer) {
+	    [self.smudgeContainer removeFromSuperlayer];
+	    [self.layer addSublayer:self.smudgeContainer];
     }
     [self.smudgeContainer updateWithEvent:event];
 }
