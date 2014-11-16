@@ -138,6 +138,7 @@
 
         if (!smudgeLayer) {
             smudgeLayer = [SmudgeLayer layer];
+            smudgeLayer.previousPosition = [touch locationInView:nil];
             self.touchSmudgeTable[touchKey] = smudgeLayer;
             [self addSublayer:smudgeLayer];
         }
