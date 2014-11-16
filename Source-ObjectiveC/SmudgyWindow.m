@@ -55,7 +55,9 @@
 
 - (void)updateWithTouch:(UITouch *)touch
 {
-    self.velocity = CGPointMake( (self.velocity.x + self.position.x - self.previousPosition.x) * 0.5 , (self.velocity.y + self.position.y - self.previousPosition.y) * 0.5 );
+    if (touch.phase != UITouchPhaseBegan) {
+        self.velocity = CGPointMake( (self.velocity.x + self.position.x - self.previousPosition.x) * 0.5 , (self.velocity.y + self.position.y - self.previousPosition.y) * 0.5 );
+    }
     self.previousPosition = self.position;
 }
 
