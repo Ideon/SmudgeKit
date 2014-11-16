@@ -18,7 +18,7 @@
 ///Called after smudge creation when a touch begins. Override to customize appear animation.
 - (void)disappear;
 
-///Called after chen the related touch event ends or is cancelled. Override to customize disappear animation, the user must call removeFromSuperview on the instance.
+///Called after the related touch event ends or is cancelled. Override to customize disappear animation, the user must call removeFromSuperview on the instance.
 - (void)updateWithTouch:(UITouch *)touch;
 
 @end
