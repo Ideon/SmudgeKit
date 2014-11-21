@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SmudgeKit"
-  s.version      = "0.1.1"
+  s.version      = "0.1.2"
   s.summary      = "A drop in replacement for UIWindow to draw touch points for app previews and promotional videos."
 
   s.description  = <<-DESC
