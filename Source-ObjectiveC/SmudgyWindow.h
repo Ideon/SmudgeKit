@@ -14,4 +14,6 @@
  */
 @interface SmudgyWindow : UIWindow
 
+@property (nonatomic) BOOL enableSmudgeKit;
+
 @end

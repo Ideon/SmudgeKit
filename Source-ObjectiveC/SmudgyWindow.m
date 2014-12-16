@@ -176,10 +176,21 @@
 
 @implementation SmudgyWindow
 
+- (void)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)  {
+        self.enableSmudgeKit = YES;
+    }
+    return self;
+}
+
 - (void)sendEvent:(UIEvent *)event
 {
     [super sendEvent:event];
-    [self renderTouchesForEvent:event];
+    if (self.enableSmudgeKit)  {
+        [self renderTouchesForEvent:event];
+    }
 }
 
 - (void)renderTouchesForEvent:(UIEvent *)event
