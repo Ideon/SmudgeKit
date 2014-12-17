@@ -31,6 +31,10 @@ Then implement the getter method of the window property in your Application Dele
 
 ```
 
+The smudge effect can be turned on or off at will using the following @property of `UIWindow`:
+
+`@property (nonatomic, getter=isSmudgeKitEnabled) BOOL enableSmudgeKit;`
+
 You can change the appearance by editing the SmudgeLayer implementation in SmudgyWindow.m
 
 
