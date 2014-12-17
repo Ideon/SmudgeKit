@@ -6,7 +6,28 @@
 //  Copyright (c) 2014 Ideon. All rights reserved.
 //
 
+#import <objc/runtime.h>
+
 #import "SmudgyWindow.h"
+
+#pragma mark - UIWindow category
+
+static const void *EnableSmudgeKitKey = &EnableSmudgeKitKey;
+
+@implementation UIWindow (SmudgeKitProperties)
+
+- (void)setEnableSmudgeKit:(BOOL)enableSmudgeKit
+{
+    objc_setAssociatedObject(self, EnableSmudgeKitKey, [NSNumber numberWithBool:enableSmudgeKit], OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (BOOL)isSmudgeKitEnabled
+{
+    NSNumber *smudgeKitEnabled = objc_getAssociatedObject(self, EnableSmudgeKitKey);
+    return [smudgeKitEnabled boolValue];
+}
+
+@end
 
 #pragma mark - Private SmudgeLayer implementation -
 
@@ -176,10 +197,21 @@
 
 @implementation SmudgyWindow
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)  {
+        self.enableSmudgeKit = YES;
+    }
+    return self;
+}
+
 - (void)sendEvent:(UIEvent *)event
 {
     [super sendEvent:event];
-    [self renderTouchesForEvent:event];
+    if (self.enableSmudgeKit)  {
+        [self renderTouchesForEvent:event];
+    }
 }
 
 - (void)renderTouchesForEvent:(UIEvent *)event
