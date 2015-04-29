@@ -8,6 +8,16 @@
 
 #import "SmudgyWindow.h"
 
+static CGFloat layerRadius;
+static CGFloat layerLineWidth;
+static UIColor* layerFillColor;
+static UIColor* layerStrokeColor;
+
+static UIColor* shadowColor;
+static CGFloat shadowOpacity;
+static CGFloat shadowRadius;
+static CGSize shadowOffset;
+
 #pragma mark - Private SmudgeLayer implementation -
 
 @interface SmudgeLayer : CAShapeLayer
@@ -38,21 +48,34 @@
         self.velocity = CGPointZero;
         self.contentsScale = [UIScreen mainScreen].scale;
 
-        CGFloat radius = 20.0;
-        self.path = CGPathCreateWithEllipseInRect(CGRectMake(-radius, -radius, radius*2, radius*2), NULL);
-        self.fillColor = [UIColor colorWithWhite:0.9 alpha:0.9].CGColor;
-        self.strokeColor = [UIColor colorWithWhite:0.0 alpha:0.35].CGColor;
-        self.lineWidth = 1;
-
-        self.shadowPath = self.path;
-        self.shadowColor = [UIColor blackColor].CGColor;
-        self.shadowOpacity = 0.15;
-        self.shadowRadius = 3.0;
-        self.shadowOffset = CGSizeMake(0.0, 1.0);
+        [self refreshLayerLooks];
+        [self refreshShadowLooks];
     }
     return self;
 }
 
+#pragma mark Customize Looks
+
+- (void)refreshLayerLooks
+{
+    self.fillColor = layerFillColor.CGColor;
+    self.strokeColor = layerStrokeColor.CGColor;
+    self.lineWidth = layerLineWidth;
+    
+    self.path = CGPathCreateWithEllipseInRect(CGRectMake(-layerRadius, -layerRadius, layerRadius*2, layerRadius*2), NULL);
+    self.shadowPath = self.path;
+}
+
+- (void)refreshShadowLooks
+{
+    self.shadowPath = self.path;
+    self.shadowColor = shadowColor.CGColor;
+    self.shadowOpacity = shadowOpacity;
+    self.shadowRadius = shadowRadius;
+    self.shadowOffset = shadowOffset;
+}
+
+#pragma mark Manage Touche
 - (void)updateWithTouch:(UITouch *)touch
 {
     if (touch.phase != UITouchPhaseBegan) {
@@ -163,6 +186,24 @@
     }
 }
 
+#pragma mark Customize Looks
+
+- (void)refreshLayerLooks
+{
+    for (SmudgeLayer* smudgeLayer in self.touchSmudgeTable)
+    {
+        [smudgeLayer refreshLayerLooks];
+    }
+}
+
+- (void)refreshShadowLooks
+{
+    for (SmudgeLayer* smudgeLayer in self.touchSmudgeTable)
+    {
+        [smudgeLayer refreshShadowLooks];
+    }
+}
+
 @end
 
 
@@ -175,6 +216,19 @@
 @end
 
 @implementation SmudgyWindow
+
++ (void)initialize
+{
+    layerRadius = 20.0;
+    layerFillColor = [UIColor colorWithWhite:0.9 alpha:0.9];
+    layerStrokeColor = [UIColor colorWithWhite:0.0 alpha:0.35];
+    layerLineWidth = 1;
+    
+    shadowColor = [UIColor blackColor];
+    shadowOpacity = 0.15;
+    shadowRadius = 3.0;
+    shadowOffset = CGSizeMake(0.0, 1.0);
+}
 
 - (void)sendEvent:(UIEvent *)event
 {
@@ -194,6 +248,41 @@
     [self.smudgeContainer updateWithEvent:event];
 }
 
+#pragma mark Customize Looks
+
+- (void)updateLayerRadius:(CGFloat)newRadius
+                lineWidth:(CGFloat)newLineWidth
+                fillColor:(UIColor*)newFillColor
+              strokeColor:(UIColor*)newStrokeColor
+{
+    if (newRadius > 0)
+        layerRadius = newRadius;
+    if (newLineWidth >= 0)
+        layerLineWidth = newLineWidth;
+    if (newFillColor)
+        layerFillColor = newFillColor;
+    if (newStrokeColor)
+        layerStrokeColor = newStrokeColor;
+    
+    [self.smudgeContainer refreshLayerLooks];
+}
+
+- (void)updateShadowColor:(UIColor*)newShadowColor
+             shadowRadius:(CGFloat)newShadowRadius
+            shadowOpacity:(CGFloat)newShadowOpacity
+             shadowOffset:(CGSize)newShadowOffset
+{
+    if (newShadowColor)
+        shadowColor = newShadowColor;
+    if (newShadowRadius >= 0)
+        shadowRadius = newShadowRadius;
+    if (newShadowOpacity >= 0 && newShadowOpacity <= 1)
+        shadowOpacity = newShadowOpacity;
+    
+    shadowOffset = newShadowOffset;
+    
+
+    [self.smudgeContainer refreshShadowLooks];
+}
+
 @end
-
-
