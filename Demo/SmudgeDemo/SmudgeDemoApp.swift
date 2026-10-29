@@ -5,11 +5,12 @@ import SwiftUI
 struct SmudgeDemoApp: App {
     @State private var style = SmudgeStyle.soft
     @State private var isShowingTouches = true
+    @State private var placement = SmudgePlacement.overlayWindow
 
     var body: some Scene {
         WindowGroup {
-            DemoView(style: $style, isShowingTouches: $isShowingTouches)
-                .showsTouches(isShowingTouches, style: style)
+            DemoView(style: $style, isShowingTouches: $isShowingTouches, placement: $placement)
+                .showsTouches(isShowingTouches, style: style, placement: placement)
         }
     }
 }
@@ -17,6 +18,7 @@ struct SmudgeDemoApp: App {
 struct DemoView: View {
     @Binding var style: SmudgeStyle
     @Binding var isShowingTouches: Bool
+    @Binding var placement: SmudgePlacement
     @State private var isShowingSheet = false
     @State private var isShowingAlert = false
 
@@ -29,6 +31,10 @@ struct DemoView: View {
                 NavigationStack {
                     List {
                         Toggle("Show touches", isOn: $isShowingTouches)
+                        Picker("Draw in", selection: $placement) {
+                            Text("Overlay window").tag(SmudgePlacement.overlayWindow)
+                            Text("Host window").tag(SmudgePlacement.hostWindow)
+                        }
                         Button("Present a sheet") { isShowingSheet = true }
                         Button("Show an alert") { isShowingAlert = true }
                         NavigationLink("Pinch and rotate") { PinchView() }

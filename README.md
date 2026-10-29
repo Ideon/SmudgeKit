@@ -46,6 +46,16 @@ let smudges = TouchSmudges.show(in: windowScene)
 smudges.stop()
 ```
 
+### Placement
+
+By default the dots are drawn in their own window above the app. Some recorders, such as ReplayKit's in-app recording on some devices, only capture the app's own windows. For those, draw on top of the window each touch lands in instead:
+
+```swift
+.showsTouches(isRecordingPreview, placement: .hostWindow)
+```
+
+The layer is raised back to the top whenever something else is added above it. Touches in other windows, such as alerts, are drawn in those windows.
+
 ### Style
 
 `SmudgeStyle` sets the dot's size, colour, softness and rim, how it appears, and how far it drifts after the finger lifts. There are three presets:

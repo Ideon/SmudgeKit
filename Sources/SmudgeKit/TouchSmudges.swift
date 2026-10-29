@@ -9,7 +9,7 @@ import UIKit
 /// ```
 ///
 /// In SwiftUI, use the `showsTouches(_:style:)` modifier instead. Several handles can show
-/// touches in the same scene; they share one overlay, and the most recent style wins.
+/// touches in the same scene; they share one overlay, and the most recent style and placement win.
 @MainActor
 public final class TouchSmudges {
     public private(set) weak var scene: UIWindowScene?
@@ -20,21 +20,31 @@ public final class TouchSmudges {
         didSet { smudger?.style = style }
     }
 
+    /// Where touches are drawn. Changing it removes the smudges on screen.
+    public var placement: SmudgePlacement {
+        didSet { smudger?.placement = placement }
+    }
+
     /// False once stopped, or once the scene has disconnected.
     public var isActive: Bool {
         guard let smudger else { return false }
         return !smudger.isTornDown
     }
 
-    private init(scene: UIWindowScene, style: SmudgeStyle) {
+    private init(scene: UIWindowScene, style: SmudgeStyle, placement: SmudgePlacement) {
         self.scene = scene
         self.style = style
-        self.smudger = SceneSmudger.acquire(for: scene, style: style)
+        self.placement = placement
+        self.smudger = SceneSmudger.acquire(for: scene, style: style, placement: placement)
     }
 
     /// Starts drawing touches in every window of `scene`.
-    public static func show(in scene: UIWindowScene, style: SmudgeStyle = .soft) -> TouchSmudges {
-        TouchSmudges(scene: scene, style: style)
+    public static func show(
+        in scene: UIWindowScene,
+        style: SmudgeStyle = .soft,
+        placement: SmudgePlacement = .overlayWindow
+    ) -> TouchSmudges {
+        TouchSmudges(scene: scene, style: style, placement: placement)
     }
 
     /// Stops drawing touches. The overlay goes away when the last handle for the scene stops.

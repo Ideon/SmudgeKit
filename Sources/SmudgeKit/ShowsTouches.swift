@@ -5,9 +5,14 @@ extension View {
     /// sheets and alerts. Meant for screen recordings and App Store previews; gate it behind a
     /// debug flag in shipping apps.
     ///
-    /// Apply it once near the root of each scene, for example on the `WindowGroup` content.
-    public func showsTouches(_ isEnabled: Bool = true, style: SmudgeStyle = .soft) -> some View {
-        background(SmudgeAnchor(isEnabled: isEnabled, style: style))
+    /// Apply it once near the root of each scene, for example on the `WindowGroup` content. Use
+    /// `placement: .hostWindow` when the recorder doesn't capture the overlay window.
+    public func showsTouches(
+        _ isEnabled: Bool = true,
+        style: SmudgeStyle = .soft,
+        placement: SmudgePlacement = .overlayWindow
+    ) -> some View {
+        background(SmudgeAnchor(isEnabled: isEnabled, style: style, placement: placement))
     }
 }
 
@@ -15,6 +20,7 @@ extension View {
 private struct SmudgeAnchor: UIViewRepresentable {
     var isEnabled: Bool
     var style: SmudgeStyle
+    var placement: SmudgePlacement
 
     func makeUIView(context: Context) -> AnchorView {
         AnchorView()
@@ -22,6 +28,7 @@ private struct SmudgeAnchor: UIViewRepresentable {
 
     func updateUIView(_ view: AnchorView, context: Context) {
         view.style = style
+        view.placement = placement
         view.isShowingTouches = isEnabled
     }
 
@@ -41,6 +48,14 @@ private final class AnchorView: UIView {
         didSet {
             if style != oldValue {
                 smudges?.style = style
+            }
+        }
+    }
+
+    var placement = SmudgePlacement.overlayWindow {
+        didSet {
+            if placement != oldValue {
+                smudges?.placement = placement
             }
         }
     }
@@ -67,6 +82,6 @@ private final class AnchorView: UIView {
             return
         }
         smudges?.stop()
-        smudges = scene.map { TouchSmudges.show(in: $0, style: style) }
+        smudges = scene.map { TouchSmudges.show(in: $0, style: style, placement: placement) }
     }
 }
