@@ -81,6 +81,8 @@ Two more modifiers help with the recording itself. Each is separate, so use any 
 
 `recordsScreen()` records the app with ReplayKit's in-app recording: a take starts each time the scene comes to the foreground and is saved when it goes to the background, so pressing Home ends it. Takes keep the app's own frame rate and have no Control Center pull-down at either end. By default each take is saved to its own file in `Documents/SmudgeKit Recordings`; pass `saveTo:` for a fixed file, and `onEvent:` to hear when a take starts or is saved. ReplayKit captures only the app's windows, so draw touches with `placement: .hostWindow`. iOS asks to allow recording before a take starts.
 
+`logsTouches()` saves every touch of a take, its full path and timing in screen points, as JSON beside the take, for replaying a performance later (for example from a UI test). Like `recordsScreen()`, it writes one log per foreground stretch.
+
 `hidesStatusBarForRecording()` hides the status bar, and with it the clock and the red recording indicator. It also works with Control Center's screen recording.
 
 ```swift
