@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import SwiftUI
 
 extension View {
@@ -85,3 +86,4 @@ private final class AnchorView: UIView {
         smudges = scene.map { TouchSmudges.show(in: $0, style: style, placement: placement) }
     }
 }
+#endif

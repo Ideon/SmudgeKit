@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import SwiftUI
 
 /// Sliders for every part of a `SmudgeStyle`, over a few backgrounds to try it on, with the
@@ -163,3 +164,4 @@ extension SmudgeStyle {
     SmudgeTuner(style: $style)
         .showsTouches(style: style)
 }
+#endif

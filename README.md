@@ -31,7 +31,7 @@ WindowGroup {
 
 Touches show up across the whole scene, including sheets, alerts and any other windows in it. Each scene, such as each window on iPad or each display, draws its own touches.
 
-To keep it out of release builds, gate it behind a flag:
+To show touches only for some launches, gate it behind a flag:
 
 ```swift
 ContentView()
@@ -90,7 +90,17 @@ ContentView()
     .hidesStatusBarForRecording(isRecordingPreview)
 ```
 
-Keep all three out of release builds, for example by linking SmudgeKit only in debug builds and wrapping the import and the modifiers in `#if DEBUG`.
+## Release builds
+
+SmudgeKit is compiled only in Debug: in Release its sources are empty, so neither it nor ReplayKit ends up in a shipping app. Wrap the import and every use in `#if DEBUG`:
+
+```swift
+#if DEBUG
+import SmudgeKit
+#endif
+```
+
+Optimized takes can still use a Debug build with Release-level optimization, for example `xcodebuild -configuration Debug SWIFT_OPTIMIZATION_LEVEL=-O`.
 
 ## Demo
 

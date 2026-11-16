@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import UIKit
 
 /// Shows touches in a window scene, for screen recordings and App Store previews.
@@ -53,3 +54,4 @@ public final class TouchSmudges {
         smudger = nil
     }
 }
+#endif

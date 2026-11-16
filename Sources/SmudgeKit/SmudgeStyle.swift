@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import UIKit
 
 /// How a touch is drawn: its size and colour, how it appears, and how it flies off when the
@@ -97,3 +98,4 @@ extension SmudgeStyle {
         maxDrift: .greatestFiniteMagnitude
     )
 }
+#endif

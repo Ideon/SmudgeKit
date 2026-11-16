@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import UIKit
 
 /// One drawn touch: a dot that follows the finger and flies off when it lifts.
@@ -135,3 +136,4 @@ final class Smudge {
         layer.removeFromSuperlayer()
     }
 }
+#endif

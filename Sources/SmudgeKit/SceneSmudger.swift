@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import UIKit
 
 /// Draws the touches of one window scene. Watches every window in the scene and draws either into
@@ -250,3 +251,4 @@ private struct WeakWindow {
     weak var window: UIWindow?
     init(_ window: UIWindow) { self.window = window }
 }
+#endif

@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import ReplayKit
 import SwiftUI
 
@@ -137,3 +138,4 @@ final class ScreenRecorder {
             .appending(path: "\(formatter.string(from: .now)).mp4")
     }
 }
+#endif

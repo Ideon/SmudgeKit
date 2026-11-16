@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import UIKit
 
 /// A transparent window above the app's own windows that smudges are drawn in. It never takes
@@ -33,3 +34,4 @@ final class OverlayWindow: UIWindow {
         CATransaction.commit()
     }
 }
+#endif

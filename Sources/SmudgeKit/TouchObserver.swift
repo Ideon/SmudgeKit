@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import UIKit
 
 /// A gesture recognizer that only watches. It never recognizes, never cancels or delays touches
@@ -66,3 +67,4 @@ final class TouchObserver: UIGestureRecognizer {
         }
     }
 }
+#endif

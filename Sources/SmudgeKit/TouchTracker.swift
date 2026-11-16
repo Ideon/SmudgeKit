@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 import CoreGraphics
 import Foundation
 
@@ -88,3 +89,4 @@ struct TouchTracker<Key: Hashable> {
         return keys
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if SMUDGEKIT_ENABLED
 /// Where smudges are drawn.
 public enum SmudgePlacement: Equatable, Sendable {
     /// In a pass-through window above the app's windows, so touches show over sheets, alerts and
@@ -9,3 +10,4 @@ public enum SmudgePlacement: Equatable, Sendable {
     /// The layer is raised back to the top whenever something else is added above it.
     case hostWindow
 }
+#endif
