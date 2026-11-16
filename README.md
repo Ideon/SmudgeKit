@@ -75,6 +75,23 @@ style.drift = 0.15
 
 `SmudgeTuner` is a view with sliders for every property over a few backdrops, and shows the resulting style as code to paste back. Open `SmudgeTuner.swift` in Xcode and use the "Tune the look" preview, or run the demo app.
 
+### Recording
+
+Two more modifiers help with the recording itself. Each is separate, so use any combination.
+
+`recordsScreen()` records the app with ReplayKit's in-app recording: a take starts each time the scene comes to the foreground and is saved when it goes to the background, so pressing Home ends it. Takes keep the app's own frame rate and have no Control Center pull-down at either end. By default each take is saved to its own file in `Documents/SmudgeKit Recordings`; pass `saveTo:` for a fixed file, and `onEvent:` to hear when a take starts or is saved. ReplayKit captures only the app's windows, so draw touches with `placement: .hostWindow`. iOS asks to allow recording before a take starts.
+
+`hidesStatusBarForRecording()` hides the status bar, and with it the clock and the red recording indicator. It also works with Control Center's screen recording.
+
+```swift
+ContentView()
+    .showsTouches(isRecordingPreview, placement: .hostWindow)
+    .recordsScreen(isRecordingPreview)
+    .hidesStatusBarForRecording(isRecordingPreview)
+```
+
+Keep all three out of release builds, for example by linking SmudgeKit only in debug builds and wrapping the import and the modifiers in `#if DEBUG`.
+
 ## Demo
 
 `Demo/SmudgeDemo.xcodeproj` has the tuner, scrolling lists, a sheet, an alert and a pinch and rotate view whose gestures claim every touch.
